@@ -1,0 +1,6 @@
+<resources>
+    <string name="welcome_title">AI Study Coach</string>
+    <string name="welcome_subtitle">A little curiosity goes a long way.</string>
+    <string name="welcome_message">Your space to understand a topic, explore helpful hints, and check what you have learned.</string>
+    <string name="welcome_status">Your tutor is coming soon.</string>
+</resources>

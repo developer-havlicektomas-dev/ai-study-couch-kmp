@@ -1,0 +1,183 @@
+// !$*UTF8*$!
+{
+"archiveVersion" = 1;
+"classes" = {
+};
+"objectVersion" = 56;
+"objects" = {
+"000000000000000000000005" = {
+"isa" = "PBXFileReference";
+"lastKnownFileType" = "sourcecode.swift";
+"path" = "StudyCoachApp.swift";
+"sourceTree" = "<group>";
+};
+"000000000000000000000006" = {
+"isa" = "PBXBuildFile";
+"fileRef" = "000000000000000000000005";
+};
+"000000000000000000000007" = {
+"isa" = "PBXFileReference";
+"explicitFileType" = "wrapper.application";
+"path" = "AIStudyCoach.app";
+"sourceTree" = "BUILT_PRODUCTS_DIR";
+};
+"000000000000000000000004" = {
+"isa" = "PBXGroup";
+"children" = ("000000000000000000000005");
+"path" = "iosApp";
+"sourceTree" = "<group>";
+};
+"000000000000000000000003" = {
+"isa" = "PBXGroup";
+"children" = ("000000000000000000000007");
+"name" = "Products";
+"sourceTree" = "<group>";
+};
+"000000000000000000000002" = {
+"isa" = "PBXGroup";
+"children" = ("000000000000000000000004","000000000000000000000003");
+"sourceTree" = "<group>";
+};
+"000000000000000000000009" = {
+"isa" = "PBXSourcesBuildPhase";
+"buildActionMask" = 2147483647;
+"files" = ("000000000000000000000006");
+"runOnlyForDeploymentPostprocessing" = 0;
+};
+"00000000000000000000000A" = {
+"isa" = "PBXFrameworksBuildPhase";
+"buildActionMask" = 2147483647;
+"files" = ();
+"runOnlyForDeploymentPostprocessing" = 0;
+};
+"00000000000000000000000B" = {
+"isa" = "PBXResourcesBuildPhase";
+"buildActionMask" = 2147483647;
+"files" = ();
+"runOnlyForDeploymentPostprocessing" = 0;
+};
+"00000000000000000000000C" = {
+"isa" = "PBXShellScriptBuildPhase";
+"buildActionMask" = 2147483647;
+"alwaysOutOfDate" = 1;
+"files" = ();
+"inputPaths" = ();
+"outputPaths" = ();
+"name" = "Build shared Kotlin framework";
+"runOnlyForDeploymentPostprocessing" = 0;
+"shellPath" = "/bin/sh";
+"shellScript" = "\"$SRCROOT/build-kotlin.sh\"\n";
+};
+"000000000000000000000008" = {
+"isa" = "PBXNativeTarget";
+"buildConfigurationList" = "00000000000000000000000E";
+"buildPhases" = ("00000000000000000000000C","000000000000000000000009","00000000000000000000000A","00000000000000000000000B");
+"buildRules" = ();
+"dependencies" = ();
+"name" = "iosApp";
+"productName" = "AIStudyCoach";
+"productReference" = "000000000000000000000007";
+"productType" = "com.apple.product-type.application";
+};
+"000000000000000000000001" = {
+"isa" = "PBXProject";
+"attributes" = {
+"LastUpgradeCheck" = "2700";
+};
+"buildConfigurationList" = "00000000000000000000000D";
+"compatibilityVersion" = "Xcode 14.0";
+"developmentRegion" = "en";
+"hasScannedForEncodings" = 0;
+"knownRegions" = ("en","Base");
+"mainGroup" = "000000000000000000000002";
+"productRefGroup" = "000000000000000000000003";
+"projectDirPath" = "";
+"projectRoot" = "";
+"targets" = ("000000000000000000000008");
+};
+"00000000000000000000000F" = {
+"isa" = "XCBuildConfiguration";
+"name" = "Debug";
+"buildSettings" = {
+"SDKROOT" = "iphoneos";
+"IPHONEOS_DEPLOYMENT_TARGET" = "18.5";
+"CLANG_ENABLE_MODULES" = "YES";
+"SWIFT_VERSION" = "5.0";
+"ENABLE_USER_SCRIPT_SANDBOXING" = "NO";
+"ONLY_ACTIVE_ARCH" = "YES";
+"SWIFT_OPTIMIZATION_LEVEL" = "-Onone";
+"DEBUG_INFORMATION_FORMAT" = "dwarf";
+};
+};
+"000000000000000000000011" = {
+"isa" = "XCBuildConfiguration";
+"name" = "Debug";
+"buildSettings" = {
+"PRODUCT_NAME" = "AIStudyCoach";
+"ARCHS" = "arm64";
+"INFOPLIST_FILE" = "iosApp/Info.plist";
+"PRODUCT_BUNDLE_IDENTIFIER" = "dev.havlicektomas.studycoach";
+"GENERATE_INFOPLIST_FILE" = "YES";
+"INFOPLIST_KEY_CFBundleDisplayName" = "AI Study Coach";
+"INFOPLIST_KEY_UILaunchScreen_Generation" = "YES";
+"INFOPLIST_KEY_UIApplicationSceneManifest_Generation" = "YES";
+"INFOPLIST_KEY_UISupportedInterfaceOrientations" = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+"TARGETED_DEVICE_FAMILY" = "1";
+"CURRENT_PROJECT_VERSION" = "1";
+"MARKETING_VERSION" = "0.1.0";
+"CODE_SIGN_STYLE" = "Automatic";
+"FRAMEWORK_SEARCH_PATHS" = ("$(inherited)","$(SRCROOT)/../composeApp/build/xcode-frameworks/$(CONFIGURATION)/$(SDK_NAME)");
+"OTHER_LDFLAGS" = ("$(inherited)","-framework","ComposeApp");
+"LD_RUNPATH_SEARCH_PATHS" = ("$(inherited)","@executable_path/Frameworks");
+};
+};
+"000000000000000000000010" = {
+"isa" = "XCBuildConfiguration";
+"name" = "Release";
+"buildSettings" = {
+"SDKROOT" = "iphoneos";
+"IPHONEOS_DEPLOYMENT_TARGET" = "18.5";
+"CLANG_ENABLE_MODULES" = "YES";
+"SWIFT_VERSION" = "5.0";
+"ENABLE_USER_SCRIPT_SANDBOXING" = "NO";
+"SWIFT_COMPILATION_MODE" = "wholemodule";
+"DEBUG_INFORMATION_FORMAT" = "dwarf-with-dsym";
+};
+};
+"000000000000000000000012" = {
+"isa" = "XCBuildConfiguration";
+"name" = "Release";
+"buildSettings" = {
+"PRODUCT_NAME" = "AIStudyCoach";
+"ARCHS" = "arm64";
+"INFOPLIST_FILE" = "iosApp/Info.plist";
+"PRODUCT_BUNDLE_IDENTIFIER" = "dev.havlicektomas.studycoach";
+"GENERATE_INFOPLIST_FILE" = "YES";
+"INFOPLIST_KEY_CFBundleDisplayName" = "AI Study Coach";
+"INFOPLIST_KEY_UILaunchScreen_Generation" = "YES";
+"INFOPLIST_KEY_UIApplicationSceneManifest_Generation" = "YES";
+"INFOPLIST_KEY_UISupportedInterfaceOrientations" = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+"TARGETED_DEVICE_FAMILY" = "1";
+"CURRENT_PROJECT_VERSION" = "1";
+"MARKETING_VERSION" = "0.1.0";
+"CODE_SIGN_STYLE" = "Automatic";
+"FRAMEWORK_SEARCH_PATHS" = ("$(inherited)","$(SRCROOT)/../composeApp/build/xcode-frameworks/$(CONFIGURATION)/$(SDK_NAME)");
+"OTHER_LDFLAGS" = ("$(inherited)","-framework","ComposeApp");
+"LD_RUNPATH_SEARCH_PATHS" = ("$(inherited)","@executable_path/Frameworks");
+};
+};
+"00000000000000000000000D" = {
+"isa" = "XCConfigurationList";
+"buildConfigurations" = ("00000000000000000000000F","000000000000000000000010");
+"defaultConfigurationIsVisible" = 0;
+"defaultConfigurationName" = "Release";
+};
+"00000000000000000000000E" = {
+"isa" = "XCConfigurationList";
+"buildConfigurations" = ("000000000000000000000011","000000000000000000000012");
+"defaultConfigurationIsVisible" = 0;
+"defaultConfigurationName" = "Release";
+};
+};
+"rootObject" = "000000000000000000000001";
+}
