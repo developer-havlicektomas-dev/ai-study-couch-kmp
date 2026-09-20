@@ -115,7 +115,8 @@
 "buildSettings" = {
 "PRODUCT_NAME" = "AIStudyCoach";
 "ARCHS" = "arm64";
-"INFOPLIST_FILE" = "iosApp/Info.plist";
+"INFOPLIST_FILE" = "iosApp/Info-Debug.plist";
+"STUDY_COACH_API_URL" = "http://127.0.0.1:8000";
 "PRODUCT_BUNDLE_IDENTIFIER" = "dev.havlicektomas.studycoach";
 "GENERATE_INFOPLIST_FILE" = "YES";
 "INFOPLIST_KEY_CFBundleDisplayName" = "AI Study Coach";
@@ -151,6 +152,7 @@
 "PRODUCT_NAME" = "AIStudyCoach";
 "ARCHS" = "arm64";
 "INFOPLIST_FILE" = "iosApp/Info.plist";
+"STUDY_COACH_API_URL" = "https://example.invalid";
 "PRODUCT_BUNDLE_IDENTIFIER" = "dev.havlicektomas.studycoach";
 "GENERATE_INFOPLIST_FILE" = "YES";
 "INFOPLIST_KEY_CFBundleDisplayName" = "AI Study Coach";

@@ -2,7 +2,8 @@
 
 KMP-01 foundation: Android and iOS launch the same localized Compose Multiplatform
 welcome screen. KMP-02 adds typed domain models, results, errors and the remote
-data-source contract. Tutor input, networking, Koin and MVI follow in later cards. The backend is not needed to run this scaffold.
+data-source contract. KMP-03 adds shared networking and platform configuration. Tutor input, Koin and
+MVI follow in later cards. The backend is not needed to run this scaffold.
 
 ## Requirements
 
@@ -55,7 +56,7 @@ phase, as required by direct Kotlin/Xcode integration.
 | `androidApp` | Thin Android launcher and APK configuration |
 | `composeApp` | Shared application assembly, `App`, and iOS framework entry point |
 | `core:domain` | Framework-free typed results and network errors |
-| `core:data` | Future shared networking infrastructure |
+| `core:data` | Ktor client factory, safe calls and validated server configuration |
 | `core:presentation` | Future shared presentation utilities |
 | `core:design-system` | Shared Material 3 theme |
 | `feature:tutor:domain` | Tutor request/response models, response validation and data-source interface |
@@ -85,8 +86,8 @@ libraries out of domain code and add dependencies only as subsequent tasks need 
 
 KMP-01 is a launchable foundation, not the completed tutor feature. Consult
 `REQUIREMENTS.md` and the [KMP board](https://github.com/users/developer-havlicektomas-dev/projects/4)
-for the remaining work. There are no provider secrets, network permissions or
-cleartext-network exceptions in the scaffold.
+for the remaining work. There are no provider secrets. Network access is configured by KMP-03; HTTP
+allowances exist only in debug builds.
 
 ### KMP-01 verification — 2026-09-18
 
@@ -123,3 +124,64 @@ it requires selecting and testing a compatible native dependency set.
 ./gradlew :core:domain:allTests :feature:tutor:domain:allTests \
   :feature:tutor:domain:compileKotlinIosArm64 verifyModuleBoundaries
 ```
+
+## Networking configuration (KMP-03)
+
+One reusable client per application uses OkHttp on Android and Darwin on iOS.
+The shared factory accepts its engine externally for testing. `StudyCoachApplication.httpClient`
+and `IosNetworking.client` own lazy application-scoped instances; KMP-05 will wire
+these into Koin. Networking is not called by the welcome screen yet.
+
+| Build | Default / override |
+| --- | --- |
+| Android debug | `http://10.0.2.2:8000`; override with `-PstudyCoach.devApiUrl=http://192.168.1.20:8000` |
+| iOS debug | `http://127.0.0.1:8000`; override Xcode's `STUDY_COACH_API_URL` build setting |
+| Android release | Must supply `-PstudyCoach.apiUrl=https://your-api-host` |
+| iOS release | Must supply `STUDY_COACH_API_URL=https://your-api-host` |
+
+Release builds intentionally fail with the placeholder address until a production
+HTTPS endpoint is supplied. Configuration rejects credentials, query strings and
+fragments. The shared client blocks non-HTTPS release requests even if a caller
+passes an absolute URL, and does not follow redirects. Debug Android permits HTTP;
+debug iOS allows local networking only. Release manifests/plists omit development
+allowances. No request/response logging plugin is installed in either build.
+
+For a physical device, set the debug URL to the development machine's reachable
+LAN address and run the existing FastAPI service on `0.0.0.0:8000`. Keep the phone
+and development machine on the same network. iOS may ask for local-network access.
+Use an HTTPS server for non-local iOS debug endpoints.
+
+Requests use JSON and response parsing tolerates unknown fields. Use relative
+routes such as `v1/tutor/respond` (without a leading slash) to retain any configured
+base path. Inject the existing client into data sources and call
+`safeCall<ResponseDto> { client.post("v1/tutor/respond") { setBody(dto) } }`.
+The helper handles execution and decoding, maps HTTP/transport/parsing failures,
+and propagates coroutine cancellation. The KMP-04 mapper handles semantic response
+validation separately.
+
+Request and socket timeouts are 30 seconds; connection timeout is 10 seconds on
+supported engines. Darwin does not support Ktor's independent connection timeout;
+the overall 30-second request deadline still bounds connection attempts. See
+[Ktor's timeout support](https://ktor.io/docs/client-timeout.html).
+
+```sh
+./gradlew :core:data:allTests :androidApp:assembleDebug \
+  :composeApp:compileKotlinIosArm64 verifyModuleBoundaries
+```
+
+### KMP-03 verification — 2026-09-20
+
+- Nine networking tests passed on Android host and iOS Simulator (18 executions):
+  JSON request/response, base-path handling, HTTP status errors, malformed JSON,
+  unexpected content type, transport/timeout/unknown failures, cancellation,
+  URL validation and blocking explicit HTTP requests in release clients.
+- Android debug APK and full Xcode simulator app built; iPhone arm64 sources and
+  module-boundary checks passed. Built iOS plist contains the simulator URL and
+  the debug-only local networking allowance.
+- Android merged release manifest disables cleartext. Android and iOS release
+  validation both rejected an HTTP URL as expected.
+- Android lint: zero errors; 14 tool/version/target-SDK advisories. Ktor 3.5.2 is
+  pinned to the version verified across both platforms here; 3.6.0 is available.
+  No source/compiler warnings remain; no lint rules were suppressed.
+- Live backend requests from the app remain for KMP-04/05 wiring and KMP-13
+  integration. No production endpoint, release signing or physical device was used.

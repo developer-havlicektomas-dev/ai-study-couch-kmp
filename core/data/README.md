@@ -1,3 +1,12 @@
-# core/data
+# Core data
 
-Shared Kotlin module. Domain source code must remain framework-free. Implementation is added in the subsequent KMP milestone cards; this module establishes its build and dependency boundary.
+`NetworkConfig` validates and normalizes the configured server URL.
+`HttpClientFactory` accepts a platform or mock engine, configures JSON and finite
+timeouts, blocks HTTP in production, and disables redirects and body logging.
+`safeCall<T>` translates HTTP, transport and decoding failures into domain results
+while propagating coroutine cancellation. Android socket timeouts and Darwin
+NSError failures are translated in platform source sets.
+
+The application boundary supplies engines and owns reusable client instances;
+this module does not create clients per request, implement feature DTOs, or wire
+Koin. See the root README for development URLs and production build settings.
