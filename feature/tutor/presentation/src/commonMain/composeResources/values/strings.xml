@@ -3,4 +3,11 @@
     <string name="welcome_subtitle">A little curiosity goes a long way.</string>
     <string name="welcome_message">Your space to understand a topic, explore helpful hints, and check what you have learned.</string>
     <string name="welcome_status">Your tutor is coming soon.</string>
+    <string name="question_label">What would you like to learn?</string>
+    <string name="invalid_question">Enter 3–2,000 characters.</string>
+    <string name="ask_tutor">Ask tutor</string>
+    <string name="preparing_answer">Preparing your answer…</string>
+    <string name="request_failed">Unable to get an answer. Please try again.</string>
+    <string name="retry">Retry</string>
+    <string name="mock_response">Mock response</string>
 </resources>

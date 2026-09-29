@@ -15,3 +15,7 @@ kotlin {
         implementation(libs.coroutines.test)
     }
 }
+
+kotlin.sourceSets.getByName("commonMain").dependencies {
+    api(libs.koin.core)
+}

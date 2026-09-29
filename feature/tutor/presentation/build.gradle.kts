@@ -13,3 +13,16 @@ kotlin.sourceSets.getByName("commonMain").dependencies {
 compose.resources {
     packageOfResClass = "dev.havlicektomas.studycoach.tutor.resources"
 }
+
+kotlin.sourceSets.getByName("commonMain").dependencies {
+    api(libs.koin.core)
+}
+
+kotlin.sourceSets.getByName("commonMain").dependencies {
+    implementation(libs.koin.viewmodel)
+    api(libs.lifecycle.viewmodel)
+    api(libs.lifecycle.savedstate)
+    implementation(libs.lifecycle.compose)
+}
+
+kotlin.sourceSets.getByName("commonTest").dependencies { implementation(libs.coroutines.test) }

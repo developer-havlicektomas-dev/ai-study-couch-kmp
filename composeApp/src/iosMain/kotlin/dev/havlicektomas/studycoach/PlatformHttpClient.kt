@@ -1,17 +1,17 @@
 package dev.havlicektomas.studycoach
 
-import dev.havlicektomas.studycoach.core.data.HttpClientFactory
 import dev.havlicektomas.studycoach.core.data.NetworkConfig
 import io.ktor.client.engine.darwin.Darwin
+import org.koin.core.context.startKoin
 import platform.Foundation.NSBundle
 import kotlin.experimental.ExperimentalNativeApi
 
-/** One client for the application lifetime; KMP-05 will bind this instance in Koin. */
-object IosNetworking {
+internal object IosDependencyInjection {
     @OptIn(ExperimentalNativeApi::class)
-    val client by lazy {
+    private val application by lazy {
         val baseUrl = NSBundle.mainBundle.objectForInfoDictionaryKey("StudyCoachApiBaseUrl") as? String
             ?: error("StudyCoachApiBaseUrl is missing from Info.plist")
-        HttpClientFactory.create(Darwin.create(), NetworkConfig(baseUrl, kotlin.native.Platform.isDebugBinary))
+        startKoin { modules(studyCoachModules(NetworkConfig(baseUrl, kotlin.native.Platform.isDebugBinary), Darwin.create())) }
     }
+    fun initialize() { application }
 }
