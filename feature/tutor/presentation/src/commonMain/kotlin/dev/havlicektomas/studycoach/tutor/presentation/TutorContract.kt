@@ -14,7 +14,10 @@ data class TutorState(
     val quizSelection: Int? = null,
     val quizRevealed: Boolean = false,
 ) {
-    val canSubmit: Boolean get() = !isLoading && question.trim().length in 3..2000
+    val questionLength: Int get() = question.trim().unicodeLength()
+    val showCharacterCount: Boolean get() = questionLength >= 1800
+    val showQuestionError: Boolean get() = validationError || (question.isNotEmpty() && questionLength !in 3..2000)
+    val canSubmit: Boolean get() = !isLoading && questionLength in 3..2000
 }
 
 sealed interface TutorAction {
@@ -29,4 +32,16 @@ sealed interface TutorAction {
 
 sealed interface TutorEvent {
     data class RequestFailed(val error: DataError.Network) : TutorEvent
+}
+
+/** Match the backend character count: a supplementary Unicode character counts once. */
+private fun String.unicodeLength(): Int {
+    var count = 0
+    var index = 0
+    while (index < length) {
+        val current = this[index++]
+        if (current.isHighSurrogate() && index < length && this[index].isLowSurrogate()) index++
+        count++
+    }
+    return count
 }
