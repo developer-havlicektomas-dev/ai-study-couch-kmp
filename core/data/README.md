@@ -8,5 +8,5 @@ while propagating coroutine cancellation. Android socket timeouts and Darwin
 NSError failures are translated in platform source sets.
 
 The application boundary supplies engines and owns reusable client instances;
-this module does not create clients per request, implement feature DTOs, or wire
-Koin. See the root README for development URLs and production build settings.
+coreDataModule provides the reusable client to Koin. This module does not create
+clients per request or implement feature DTOs. See the root README for development URLs and production build settings.

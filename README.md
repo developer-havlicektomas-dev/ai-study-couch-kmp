@@ -128,9 +128,9 @@ it requires selecting and testing a compatible native dependency set.
 ## Networking configuration (KMP-03)
 
 One reusable client per application uses OkHttp on Android and Darwin on iOS.
-The shared factory accepts its engine externally for testing. `StudyCoachApplication.httpClient`
-and `IosNetworking.client` own lazy application-scoped instances; KMP-05 will wire
-these into Koin. Networking is not called by the welcome screen yet.
+The shared factory accepts its engine externally for testing. `coreDataModule` owns one client in Koin. Android initializes the graph in
+`StudyCoachApplication`, and iOS initializes it once before creating the shared
+controller. `TutorRoot` resolves the lifecycle-scoped ViewModel.
 
 | Build | Default / override |
 | --- | --- |
@@ -204,3 +204,38 @@ and ViewModel; full live backend verification remains part of KMP-13.
 - iPhone arm64 compilation and module-boundary verification passed.
 - No source/compiler warnings or whitespace errors were reported.
 - Work is local on `kmp-04`; no app/backend integration run or push was performed.
+
+## Dependency wiring and request lifecycle (KMP-05)
+
+`studyCoachModules` assembles platform engine/configuration, `coreDataModule`,
+`tutorDataModule` and `tutorPresentationModule`. Koin owns one reusable client and
+remote source. The client and engine close when the Koin application closes.
+Only `TutorRoot` injects a ViewModel; it collects state and events while the
+screen lifecycle is active. `TutorScreen` renders state and forwards actions.
+
+`TutorViewModel` preserves question/mode/level in `SavedStateHandle`, defaults to
+Explain/Beginner, validates trimmed length, and sets loading before launching a
+request. Duplicate submissions are ignored. Retry captures current input; edits
+during a request and the original untrimmed input survive completion. Clearing
+the ViewModel cancels its request. Success replaces the response and resets quiz
+selection/reveal; failure retains input and previous response and exposes a typed
+error plus a one-time event. Persistent error content remains available for retry.
+
+A minimal localized question/submit/loading/retry surface now exercises the wired
+flow. Mode/level controls, complete response layouts, detailed localized error
+messages and accessibility previews remain in KMP-06–10. Quiz answers are not
+rendered by this minimal surface.
+
+```sh
+./gradlew :feature:tutor:presentation:allTests :composeApp:allTests \
+  :androidApp:assembleDebug :composeApp:compileKotlinIosArm64 verifyModuleBoundaries
+```
+
+### KMP-05 verification — 2026-09-29
+
+- Seven ViewModel tests and one complete Koin graph/request test passed on Android
+  host and iOS Simulator (16 successful executions).
+- Android debug build, iPhone arm64 compilation and module-boundary checks passed.
+- Android app installed and launched on Pixel_10a; Tutor input and submit control
+  were present, confirming runtime ViewModel/SavedStateHandle injection.
+- Full live backend flows and iOS app launch remain part of integration verification.

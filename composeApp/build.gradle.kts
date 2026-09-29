@@ -14,3 +14,13 @@ kotlin {
         implementation(project(":feature:tutor:presentation"))
     }
 }
+
+kotlin.sourceSets.getByName("commonMain").dependencies {
+    implementation(project(":feature:tutor:data"))
+    implementation(libs.koin.compose)
+}
+
+kotlin.sourceSets.getByName("commonTest").dependencies {
+    implementation(libs.ktor.mock)
+    implementation(libs.coroutines.test)
+}
