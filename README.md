@@ -60,7 +60,7 @@ phase, as required by direct Kotlin/Xcode integration.
 | `core:presentation` | Future shared presentation utilities |
 | `core:design-system` | Shared Material 3 theme |
 | `feature:tutor:domain` | Tutor request/response models, response validation and data-source interface |
-| `feature:tutor:data` | Future transport DTOs, mappers and remote implementation |
+| `feature:tutor:data` | Serializable DTOs, validated mappers and Ktor remote source |
 | `feature:tutor:presentation` | Shared welcome screen and localized resources; later Tutor UI |
 | `build-logic` (included build) | KMP, Compose and Android application conventions |
 | `iosApp` (Xcode) | Thin SwiftUI host for the shared Compose controller |
@@ -185,3 +185,22 @@ the overall 30-second request deadline still bounds connection attempts. See
   No source/compiler warnings remain; no lint rules were suppressed.
 - Live backend requests from the app remain for KMP-04/05 wiring and KMP-13
   integration. No production endpoint, release signing or physical device was used.
+
+## Tutor remote data source (KMP-04)
+
+The tutor data module now implements `TutorRemoteDataSource` with the configured
+Ktor client. Requests contain exactly the three API fields; response DTOs map to
+separate domain models, preserving optional data and rejecting invalid quizzes.
+The serialization compiler plugin is supplied through `study.serialization` in
+build-logic to share the Kotlin plugin classloader with the other conventions.
+See `feature/tutor/data/README.md` for the contract and test command.
+
+This step leaves the welcome screen unchanged. KMP-05 will bind the remote source
+and ViewModel; full live backend verification remains part of KMP-13.
+
+### KMP-04 verification — 2026-09-29
+
+- All 10 shared contract tests passed on Android host and iOS Simulator (20 executions).
+- iPhone arm64 compilation and module-boundary verification passed.
+- No source/compiler warnings or whitespace errors were reported.
+- Work is local on `kmp-04`; no app/backend integration run or push was performed.
