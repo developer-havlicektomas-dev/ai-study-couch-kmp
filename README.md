@@ -239,3 +239,30 @@ rendered by this minimal surface.
 - Android app installed and launched on Pixel_10a; Tutor input and submit control
   were present, confirming runtime ViewModel/SavedStateHandle injection.
 - Full live backend flows and iOS app launch remain part of integration verification.
+
+## Tutor form (KMP-06)
+
+The form provides multiline question input, exactly three response modes and
+three knowledge levels, with Explain/Beginner defaults. Controls wrap at narrow
+widths, use radio-group semantics and 48dp minimum touch targets, and stay above
+responses in a scrollable keyboard-aware layout.
+
+Trimmed questions must contain 3–2,000 Unicode code points, matching backend
+counting (including emoji). Editing never truncates input. Inline localized errors
+appear for edited invalid input or a rejected submission. A character counter
+appears at 1,800 characters. Ask tutor is disabled for invalid input and active
+requests; loading shows an in-context progress indicator and an announced label.
+Input and explicit selections remain after success or failure. Four previews
+cover default, loading, invalid and near-limit forms.
+
+### KMP-06 verification — 2026-09-29
+
+- All 13 presentation tests passed on Android host and iOS Simulator (26 executions),
+  including length/count boundaries, Unicode, all nine mode/level combinations,
+  duplicate prevention, retained input and existing lifecycle behavior.
+- Android debug build, iPhone arm64 compilation and module-boundary checks passed.
+- Complete response rendering remains KMP-07/08; detailed errors and broader
+  accessibility/UI-test coverage remain later tickets.
+
+Android launch and visual inspection confirmed all six choices, default selections,
+multiline input and the disabled empty-input submit button on Pixel_10a.

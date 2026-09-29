@@ -97,6 +97,23 @@ class TutorViewModelTest {
         }
     }
 
+    @Test fun submitsEveryExplicitModeAndLevelExactlyOnce() = runTest(dispatcher) {
+        val source = Source(); val vm = vm(source)
+        vm.onAction(TutorAction.QuestionChanged("  Explain this\n"))
+        for (mode in TutorMode.entries) for (level in LearnerLevel.entries) {
+            vm.onAction(TutorAction.ModeSelected(mode))
+            vm.onAction(TutorAction.LevelSelected(level))
+            vm.onAction(TutorAction.SubmitClicked)
+            vm.onAction(TutorAction.SubmitClicked)
+            runCurrent()
+            assertEquals(TutorRequest("Explain this", mode, level), source.requests.last())
+            assertEquals(mode, vm.state.value.mode)
+            assertEquals(level, vm.state.value.level)
+            assertEquals("  Explain this\n", vm.state.value.question)
+        }
+        assertEquals(9, source.requests.size)
+    }
+
     @Test fun invalidQuizActionsAreIgnored() = runTest(dispatcher) {
         val vm = vm()
         vm.onAction(TutorAction.QuizChoiceSelected(-1)); vm.onAction(TutorAction.CheckAnswerClicked)

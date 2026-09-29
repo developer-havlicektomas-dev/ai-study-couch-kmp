@@ -10,4 +10,17 @@
     <string name="request_failed">Unable to get an answer. Please try again.</string>
     <string name="retry">Retry</string>
     <string name="mock_response">Mock response</string>
+    <string name="form_description">Ask a question, then choose how you want to learn.</string>
+    <string name="question_guidance">Use 3–2,000 characters. Surrounding spaces are ignored.</string>
+    <string name="question_too_short">Add a little more detail—use at least 3 characters.</string>
+    <string name="question_too_long">Shorten your question to 2,000 characters or fewer.</string>
+    <string name="question_count">%1$d / %2$d characters</string>
+    <string name="response_mode">Response mode</string>
+    <string name="knowledge_level">Knowledge level</string>
+    <string name="mode_explain">Explain</string>
+    <string name="mode_hint">Hint</string>
+    <string name="mode_quiz">Quiz</string>
+    <string name="level_beginner">Beginner</string>
+    <string name="level_intermediate">Intermediate</string>
+    <string name="level_advanced">Advanced</string>
 </resources>
